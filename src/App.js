@@ -290,13 +290,16 @@ const API_BASE = "https://api.anthropic.com/v1/messages";
 // For real persistence we use window.storage (persistent artifact storage).
 
 async function loadSession(code) {
-  try {
-    const res = await window.storage.get("session:" + code, true);
-    return res ? JSON.parse(res.value) : null;
-  } catch {
-    return null;
-  }
-}
+      try  {
+        const response = await fetch(`${WORKER_URL}/api/session/${code}`);
+            if (!response.ok) return null;
+                return await response.json();
+                  }
+                } catch {
+                        return null;
+                          }
+                          }
+                  
 
 async function saveSession(code, data) {
   try {
